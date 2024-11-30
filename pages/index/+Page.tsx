@@ -1,10 +1,11 @@
 import React from "react";
 import { Counter } from "./Counter.js";
+import { Typography } from "antd";
 
 export default function Page() {
   return (
     <>
-      <h1>My Vike app</h1>
+      <Typography.Title>My Vike app</Typography.Title>
       This page is:
       <ul>
         <li>Rendered to HTML.</li>

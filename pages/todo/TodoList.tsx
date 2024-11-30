@@ -1,28 +1,49 @@
 import React, { useState } from "react";
+import type { FormProps } from 'antd';
+import { Button, Form, Input, Divider, List } from 'antd';
+
+type FieldType = {
+  new_todo: string;
+};
 
 export function TodoList({ initialTodoItems }: { initialTodoItems: { text: string }[] }) {
+  const [form] = Form.useForm()
   const [todoItems, setTodoItems] = useState(initialTodoItems);
-  const [newTodo, setNewTodo] = useState("");
+
+  const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+    setTodoItems((prev) => [...prev, { text: values.new_todo }]);
+    form.resetFields()
+  };
   return (
     <>
-      <ul>
-        {todoItems.map((todoItem, index) => (
-          // biome-ignore lint:
-          <li key={index}>{todoItem.text}</li>
-        ))}
-      </ul>
+      <List
+        size="small"
+        bordered
+        dataSource={todoItems}
+        renderItem={
+          (item, index) => <List.Item>{index + 1}. {item.text}</List.Item>
+        }
+      />
+      <Divider dashed />
       <div>
-        <form
-          onSubmit={async (ev) => {
-            ev.preventDefault();
-
-            // Optimistic UI update
-            setTodoItems((prev) => [...prev, { text: newTodo }]);
-          }}
+        <Form
+          form={form}
+          layout="inline"
+          style={{ maxWidth: 600 }}
+          autoComplete="off"
+          onFinish={onFinish}
         >
-          <input type="text" onChange={(ev) => setNewTodo(ev.target.value)} value={newTodo} />
-          <button type="submit">Add to-do</button>
-        </form>
+          <Form.Item<FieldType>
+            label="New Todo"
+            name="new_todo"
+            rules={[{ required: true, message: 'Please input your new todo!' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">Add to-do</Button>
+          </Form.Item>
+        </Form>
       </div>
     </>
   );
