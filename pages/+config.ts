@@ -12,6 +12,6 @@ export default {
   // https://vike.dev/head-tags
   title: "My Vike App",
   description: "Demo showcasing Vike",
-
+  stream: true,
   extends: vikeReact,
 } satisfies Config;
