@@ -4,15 +4,15 @@ import { useConfig } from "vike-react/useConfig";
 import type { PageContext } from "vike/types";
 
 export default (pageContext: PageContext) => {
-  if (pageContext.config._antdCache) {
+  const config = useConfig();
+
+  if (pageContext.config.antdCache) {
     const styleTag = React.createElement("style", {
       id: "antd-cssinjs",
       dangerouslySetInnerHTML: {
-        __html: extractStyle(pageContext.config._antdCache, true),
+        __html: extractStyle(pageContext.config.antdCache, true),
       },
     });
-    const config = useConfig();
-
     config({
       Head: styleTag,
     });
