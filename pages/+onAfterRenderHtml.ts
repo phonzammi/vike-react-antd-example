@@ -5,12 +5,13 @@ import type { PageContext } from "vike/types";
 
 export default (pageContext: PageContext) => {
   const config = useConfig();
+  const cache = pageContext.antdCache;
 
-  if (pageContext.config.antdCache) {
+  if (cache) {
     const styleTag = React.createElement("style", {
       id: "antd-cssinjs",
       dangerouslySetInnerHTML: {
-        __html: extractStyle(pageContext.config.antdCache, true),
+        __html: extractStyle(cache, true),
       },
     });
     config({
